@@ -768,6 +768,57 @@ $ vue-cli-service test:e2e --headless
 Done in 14.79s.
 ~~~
 
+### 개발 서버 실행 - run-dev.sh 
+
+새로 작성된 Vue 프로젝트를 실행 볼 대망의 시간이 되었습니다. 
+
+역시 개발 서버 프로그램을 실행하기 위해서 run-dev.sh 이란 스크립트를 만들 것입니다. 
+
+run-dev.sh 이름으로 다음과 같이 작성합니다. 
+
+> [docker/run-dev.sh]()
+
+~~~ bash
+#!/bin/bash
+echo -e "\\033]2;start home main develop(all) sever\\007"
+docker-compose run --name start-home-main-dev \
+  --rm \
+  -u $(id -u ${USER}):$(id -g ${USER}) \
+  --workdir /apps/home-main/ \
+  start-home-main-ds \
+  yarn run serve
+
+~~~
+
+앞에서 설명한 run-unit 와 내용은 비슷한데 가장 마지막 줄인 serve 만 다릅니다. 
+
+다음과 같이 수행하여 개발 서버를 동작 시킵니다. 
+
+~~~ bash
+ $ ./run-dev.sh 
+
+yarn run v1.9.4
+$ vue-cli-service serve
+ INFO  Starting development server...
+ 98% after emitting CopyPlugin                                                   
+
+ DONE  Compiled successfully in 1675ms                                                                                                                                                                                                12:23:55
+
+ 
+  App running at:
+  - Local:   http://localhost:8080/ 
+
+  It seems you are running Vue CLI inside a container.
+  Access the dev server via http://localhost:<your container's external mapped port>/
+
+  Note that the development build is not optimized.
+  To create a production build, run yarn build.
+~~~
+
+제대로 동작하는지를 확인 하기 위해서 크롬 브라우저를 실행하고 http://localhost:8080/ 로 접속해 봅니다. 
+
+[**A000 초기 구축 실행 화면**]
+![A000 초기 구축 실행 화면](doc/images/A000-vue-first.png)
 
 
 ## apollo 패키지 추가 
