@@ -276,14 +276,64 @@ $ ./build-dev.sh
 생성이 끝난 후 docker images 명령을 사용하여 정상적으로 생성된 것을 확인 합니다. 
 
 ~~~ bash
-$ docker images | grep start
 $ docker images
 REPOSITORY           TAG   IMAGE ID            CREATED             SIZE
   :
 start/home-main-ds   0.1   eea14f3fade5        6 hours ago         1.35GB
 ~~~
 
+### 개발 환경 컨테이너 실행 스크립트 - run-bash.sh 
+
+제대로 이미지가 만들어 졌는지 실험도 할겸, 이 후에 개발 작업들을 하기 위해서 컨테이너 실행 스크립트를 만들어야 합니다. 
+
+run-bash.sh 이름으로 다음과 같이 작성합니다. 
+
+> [docker/run-bash.sh]()
+
+~~~ bash
+#!/bin/bash
+echo -e "\\033]2;start home main bash\\007"
+docker-compose run --name start-home-main-ds-bash \
+  --rm \
+  -u $(id -u ${USER}):$(id -g ${USER}) \
+  --workdir /apps/ \
+  start-home-main-ds \
+  bash
+~~~
+
+이 스크립트는 새로운 vue 개발을 위한 플러그인이나 패키지 기타 쉘에서 수행해야 하는 작업을 위한 스크립트 입니다. 초기 구축 때 자주 사용됩니다. 
+
+스크립트를 실행하는 타이틀에 실행된 컨테이너의 용도를 표시하기 위해서 다음 문장을 포함합니다. 
+
+    echo -e "\\033]2;start home main bash\\007"
+
+컨테이너를 실행하면서 사용되는 옵션의 용도는 다음과 같습니다. 
+
+* docker-compose run : 컨테이너를 실행하기 위한 명령입니다. 
+* --name start-home-main-ds-bash : "start-home-main-ds-bash" 란 이름으로 컨테이너가 실행되도록 합니다. 
+* --rm : 컨테이너가 종료되면 삭제 되도록 합니다. 
+* -u $(id -u ${USER}):$(id -g ${USER}) : 현재 수행중인 사용자의 id 가 내부에 사용되도록 만듭니다. 
+* --workdir /apps/ : 컨테이너가 시작된 후 컨테이너 내부의 현재 디렉토리를 /apps 로 이동합니다. 
+* start-home-main-ds : docker-compose.yml 에 선언된 실행될 컨테이너의 서비스 이름입니다. 
+* bash : 실행될 명령으로 bash 를 실행합니다. 
+
+생성이 끝난 후 docker images 명령을 사용하여 정상적으로 생성된 것을 확인 합니다. 
+
+이제 이 스크립틀 다음과 같이 수행하여 개발 환경 컨테이너 안으로 진입합니다. 
+
+~~~ bash
+$ cd ~/start-study/docker
+$ ./run-bash.sh 
+node@main-desk:/apps$ 
+~~~
+
 자! 개발 할 준비가 모두 끝났습니다. 쉽쥬 ?
+
+## Vue 프로그램 기본 구축
+
+개발 환경이 끝났다면 바로 동작하는 vue 프로그램을 만들어 보아야 합니다. 
+
+이 과정 역시 따라하시면 바로 끝납니다. 
 
 
 
