@@ -317,8 +317,6 @@ docker-compose run --name start-home-main-ds-bash \
 * start-home-main-ds : docker-compose.yml 에 선언된 실행될 컨테이너의 서비스 이름입니다. 
 * bash : 실행될 명령으로 bash 를 실행합니다. 
 
-생성이 끝난 후 docker images 명령을 사용하여 정상적으로 생성된 것을 확인 합니다. 
-
 이제 이 스크립틀 다음과 같이 수행하여 개발 환경 컨테이너 안으로 진입합니다. 
 
 ~~~ bash
@@ -326,6 +324,8 @@ $ cd ~/start-study/docker
 $ ./run-bash.sh 
 node@main-desk:/apps$ 
 ~~~
+
+컨테이너에서 나가려면 exit 명령을 입력하고 엔터를 치면 됩니다.
 
 자! 개발 할 준비가 모두 끝났습니다. 쉽쥬 ?
 
@@ -335,16 +335,212 @@ node@main-desk:/apps$
 
 이 과정 역시 따라하시면 바로 끝납니다. 
 
+### 개발 환경 컨테이너 진입
 
+앞에서 설명한 run-bash.sh 을 실행 하여 개발 환경 컨테니너로 진입합니다. 
 
+~~~ bash
+$ cd ~/start-study/docker
+$ ./run-bash.sh 
+~~~
 
+이 후 설명은 개발 환경 컨테이너로 진입한 후 수행한다는 것을 가정합니다. 
 
+### 새로운 vue 프로젝트 생성
 
+가장 먼저 하는 일은 vue cli 3.0 을 사용하여 새로운 vue 프로젝트를 생성하는 겁니다. 
 
+초보자라면 모르는 내용이 대부분이겠지만 그냥 저를 믿고 따라 오시기 바랍니다. 
 
+보통 최근 트랜드에 맞게 프론트앤드를 Vue로 개발한다면 다음과 같은 내용이 포함됩니다. 
 
+* Babel : 자바스크립트 최신 문법을 사용할 수 있도록 해 줍니다. 
+* Router : 웹앱을 작성하기 위해서 필수적인 Vue 패키지 입니다. 
+* Vuex : vue 의 데이터를 다루기 위한 필수적인 Vue 패키지 입니다. 
+* Linter / Formatter : 자바의 문법 검사 및 자동 수정 패키지 입니다.
+* Unit Testing : Vue 의 단위 테스트를 수행하는 기능입니다. 
+* E2E Testing : 사람 대신 프로그램으로 브라우저 동작을 검증하는 기능입니다. 
 
+* apollo : REST API 를 대신하는 최신 서버 API 기능입니다. 
+* vuetify : 개발자가 자신없는 예쁜 홈페이지를 만들수 있도록 도와주는 라이브러리입니다.
 
+이 모든 기능을 포함하는 초기 프로그램을 Vue CLI 3.0 으로 쉽게 만들 수 있습니다. 
 
+새로운 프로젝트는 vue create 만들 수 있는데 개발 환경 컨테이너에 진입한 후 다음 명령을 수행합니다.
 
+새로운 프로젝트를 만들때는 다음과 같은 형식의 명령을 수행합니다. 
 
+> vue create 프로젝트이름
+
+프로젝트 이름은 저는 보통 home-main 같은 형식으로 만듭니다. 
+
+home 은 프런트앤드란 의미이고 main 은 "/" 즉 메인 페이지란 의미가 됩니다. 
+REST API 라면 api-main 이런 식으로 이름짓습니다. 
+
+보통 프런트앤드 개발시에는 홈페이지와 각 기능을 담당하는 앱으로 나누어 볼수 있는데 
+마이크로 서비스 개발을 할 경우에는 링크만 연결될 뿐 서로 다른 역활을 하므로 
+분리해 주는 방식으로 개발합니다. 
+
+지금 만드는 것은 그 중 메인 홈페이지를 만들겠다는 의미입니다.
+하지만 이 문서에서 진행하는 따라하기는 학습용이므로 분리해서 개발해 가지는 않을 겁니다. 
+
+다음과 같은 명령으로 만듭니다. 
+
+~~~ bash
+$ cd /apps
+$ vue create home-main
+~~~
+
+이렇게 실행하면 다음과 같이 빠른 설치가 가능한 https://registry.npm.taobao.org 저장소를 사용할 것인지를 묻습니다. 당근 빠른게 좋으니 Y 를 입력하고 엔터를 치거나 디폴트 선택인 엔터를 입력합니다.
+
+~~~ plantext
+?  Your connection to the default npm registry seems to be slow.
+   Use https://registry.npm.taobao.org for faster installation? (Y/n) 
+~~~ 
+
+이렇게 실행하면 다음과 같이 Vue CLI는 초기 프로젝트를 디폴트로 만들것 인지, 매뉴얼로 진행할 지를 물어 봅니다.
+
+경험상 매뉴얼로 하는 것이 정신 건강상 이롭습니다. 따라하기는 매뉴얼로 진행합니다. 
+화살표 위 아래 키로 이동하여 Manual 을 선택하고 엔터를 치면 ❯ 가 있는 메뉴가 선택됩니다. 
+
+~~~
+Vue CLI v3.0.5
+? Please pick a preset: 
+  default (babel, eslint) 
+❯ Manually select features 
+~~~
+
+이렇게 매뉴얼로 선택하면 선택 사항이 아래와 같이 나열됩니다.  
+위 아래 화살표 키를 이용하여 ❯ 를 원하는 선택 라인으로 이동하고 스페이스를 이용하여 선택을 하거나 해제 합니다.  
+선택은 ◉ 로 표시되고 해제는 ◯ 로 표시됩니다.
+
+~~~
+Vue CLI v3.3.0
+? Please pick a preset: Manually select features
+? Check the features needed for your project: 
+❯◉ Babel
+ ◯ TypeScript
+ ◯ Progressive Web App (PWA) Support
+ ◉ Router
+ ◉ Vuex
+ ◯ CSS Pre-processors
+ ◉ Linter / Formatter
+ ◉ Unit Testing
+ ◉ E2E Testing
+~~~~
+
+엎애서 설명했듯이 위에 선택된 형태로 만드신 후 엔터를 치면 다음으로 진행합니다. 
+
+앤터를 치면 선택한 항목마다 다음 선택이 필요한 내용을 물어 보면서 진행됩니다. 
+
+~~~
+? Use history mode for router? (Requires proper server setup for index fallback in production) (Y/n) 
+~~~
+
+위 항목은 Router 선택에 대한 질문인데, 웹페이지 이동시 라우터에 히스토리 기능을 지원할 것인가에 대한 질문입니다. Y 를 선택합니다.
+
+~~~
+? Pick a linter / formatter config: 
+  ESLint with error prevention only 
+  ESLint + Airbnb config 
+❯ ESLint + Standard config 
+  ESLint + Prettier 
+~~~
+
+eslint 문법 검사기를 어떤 것을 사용할 것인가를 묻는데 Standard 를 선택하는 것이 가장 무난합니다. 
+다른 것들은 너무 엄격해서 스트레스 만탕을 하루 하루 느끼게 되거나 아예 안하면 나중에 프로그램이 동작 하다가 뒷통수 칩니다. 
+
+~~~
+? Pick additional lint features: 
+ ◉ Lint on save
+❯◉ Lint and fix on commit
+~~~
+
+~~~
+? Pick a unit testing solution: (Use arrow keys)
+❯ Mocha + Chai 
+  Jest 
+~~~
+
+단위 테스팅 방법을 질문하는데 저는 Mocha 방식을 좋아 합니다. 이후 cypress 도 Mocha 베이스고  
+보통 백엔드도 Mocha 방식을 즐겨 하므로 Mocha 선택을 권장 합니다. 
+공부 좋아 하시는 분들은 다른 방식을 선택하셔도 괜찮지만 이 따라 하기 부분에서는 다루지 않습니다. 
+
+~~~
+? Pick a E2E testing solution: (Use arrow keys)
+❯ Cypress (Chrome only) 
+  Nightwatch (Selenium-based) 
+~~~
+
+E2E 테스팅 방법을 질문하는데 Cypress 를 선택합니다. 
+저는 이전에는 Nightwatch 를 사용했었는데 Cypress 가 빠르다는 소식을 듣고 변심 중입니다. 
+대신 공부하는 고생길이 다시 시작되었습니다(흑흑)
+
+~~~
+? Where do you prefer placing config for Babel, PostCSS, ESLint, etc.? (Use arrow keys)
+❯ In dedicated config files 
+  In package.json 
+~~~
+
+Vue CLI 에 의해서 설치되는 다양한 패키지들은 환경 설정 파일을 가지고 있는 것들이 있습니다. 
+이 환경 설정 파일을 어디에 둘 것인가를 질문하는데
+각 패키지별 전용 파일로 관리할 것을 지정합니다. 
+package.json 을 건드리는 것을 저 개인적으로 싫어하기 때문입니다. 
+
+~~~
+? Save this as a preset for future projects? (y/N) N 
+~~~
+
+현재까지 설정된 내용을 다른 프로젝트 생성시에 쓰기 위해 저장할 것인가를 묻는데
+전 귀찮지만 매번 선택하여 생성합니다. 그래서 아니오를 선택합니다. 
+
+~~~
+? Pick the package manager to use when installing dependencies: (Use arrow keys)
+❯ Use Yarn 
+  Use NPM 
+~~~
+
+패키지 인스톨시에 사용할 명령으로 Yarn 을 쓸건지 NPM 을 쓸건지 묻는데 
+전 최근에는 Yarn 을 선호합니다. 
+
+이렇게 선택이 끝나면 바로 프로젝트를 생성하고 패키지들을 인스톨 합니다. 
+
+생성과 패키지 설치가 성공적으로 끝나면 다음과 같은 출력을 볼 수 있습니다. 
+
+~~~ plantext
+success Saved lockfile.
+Done in 8.67s.
+⚓  Running completion hooks...
+
+📄  Generating README.md...
+
+🎉  Successfully created project home-main.
+👉  Get started with the following commands:
+
+ $ cd home-main
+ $ yarn serve
+
+ WARN  Skipped git commit due to missing username and email in git config.
+You will need to perform the initial commit yourself.
+~~~
+
+마지막에 경고가 있옵니다.
+이것은 깃 자동 커밋에 대한 처리가 유저명, 이메일이 설정되어 있지 않아서 안되어서 너 스스로 해 하는 말이므로 이 따라하기는 무시합니다. 
+
+## apollo 패키지 추가 
+
+~~~
+$ cd home-main
+$ vue add apollo
+  ? Add example code (y/N) Y
+  ? Add a GraphQL API Server? (y/N) Y
+  ? Enable automatic mocking? (y/N) Y 
+  ? Add Apollo Engine? (y/N) N
+
+~~~
+
+## vuetify 패키지 추가 
+
+~~~
+$ vue add vuetify
+~~~

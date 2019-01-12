@@ -1,0 +1,18 @@
+default:
+  database: test
+  pool: 3
+  url: mongodb://localhost:27000
+
+other_default: &default
+  database: test_dev
+
+development:
+  <<: *default
+  url: mongodb://localhost:27017
+
+staging:
+  url: #{process.env.MONGO_URL}
+
+production:
+  database: test_prod
+  url: mongodb://10.0.0.10:10001

@@ -1,0 +1,3 @@
+default:
+  consumer_key: 'twitter_consumer_key'
+  consumer_secret: 'twitter_secret_key'

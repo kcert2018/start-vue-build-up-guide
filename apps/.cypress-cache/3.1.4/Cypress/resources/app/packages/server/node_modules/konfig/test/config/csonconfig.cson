@@ -1,0 +1,6 @@
+default:
+  a: 12345
+  b: 3456
+
+production:
+  a: 123
