@@ -525,7 +525,7 @@ You will need to perform the initial commit yourself.
 ~~~
 
 마지막에 경고가 있읍니다.
-이것은 깃 자동 커밋에 대한 처리가 유저명, 이메일이 설정되어 있지 않아서 안되어서,
+이것은 깃 자동 커밋에 대한 처리가 유저명, 이메일이 설정되어 있지 않아 
 "너 스스로 해!" 하는 말이므로 이 문서의 따라하기에서는 무시합니다. 
 
 저는 상위 프로젝트 폴더로 전체 깃 관리를 합니다.
@@ -544,13 +544,54 @@ $ exit
 
 ### lint 시험 스크립트 - run-lint.sh
 
-Vue clie 로 구축된 후 개발하면 소스 수정이 실시간으로 웹 페이지에 반영됩니다. 
+Vue cli 로 구축된 후 vue 개발 서버로 개발하면 소스 수정이 실시간으로 웹 페이지에 반영됩니다. 
 이때 웹 페이지에도 잘못된 내용이 표시되지만 생각보다 잘 안 보입니다. 
 그래서 명령행 문법 검사인 lint 를 실행해서 보는 것이 좋습니다. 
 
 lint 문법 검사를 하는 run-lint.sh 스크립트를 만들어서 사용하는 것이 좋습니다. 
 
+run-lint.sh 이름으로 다음과 같이 작성합니다. 
 
+> [docker/run-lint.sh]()
+
+~~~ bash
+#!/bin/bash
+echo -e "\\033]2;start home main lint\\007"
+docker-compose run --name start-home-main-ds-lint \
+  --rm \
+  -u $(id -u ${USER}):$(id -g ${USER}) \
+  --workdir /apps/home-main/ \
+  start-home-main-ds \
+  yarn run lint
+~~~
+
+앞에서 설명한 run-bash 와 내용은 비슷한데 가장 마지막 줄인 yarn run lint 만 다릅니다. 
+
+이 명령으로 사용 가는한 것은 apps/home-main/package.json 의 scripts 세션에 선언된  키  이름들을 사용하면 됩니다. 
+
+> apps/home-main/package.json
+~~~ json
+{
+  "name": "home-main",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "test:e2e": "vue-cli-service test:e2e",
+    "test:unit": "vue-cli-service test:unit"
+  },
+    :
+~~~
+
+현재까지 각 의미는 다음과 같습니다. 
+
+  serve - 개발 서버를 수행하여 실시간 웹 수정이 가능하도록 만듭니다. 
+  build - 서비스를 하는 실제 서버에 올릴 배포 패키지를 만듭니다. 
+  lint - 문법을 검사하고 수정 위치와 원인을 알려 줍니다. 
+  test:e2e - E2E 테스트를 수행합니다.
+  test:unit - 단위 테스트를 수행합니다. 
 
 ## apollo 패키지 추가 
 
