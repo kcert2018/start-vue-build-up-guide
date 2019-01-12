@@ -666,7 +666,7 @@ Done in 4.65s.
 
 run-e2e.sh 이름으로 다음과 같이 작성합니다. 
 
-> [docker/run-e2e.sh]()
+> [docker/run-e2e.sh](https://github.com/kcert2018/start-vue-build-up-guide/blob/master/docker/run-e2e.sh)
 
 ~~~ bash
 #!/bin/bash
@@ -679,9 +679,9 @@ docker-compose run --name start-home-main-e2e \
   yarn run test:e2e --headless
 ~~~
 
-앞에서 설명한 run-lint 와 내용은 비슷한데 가장 마지막 줄인 yarn run test:unit 만 다릅니다. 
+앞에서 설명한 run-unit 와 내용은 비슷한데 가장 마지막 줄인 test:e2e --headless 만 다릅니다. 
 
-다음과 같이 실행 결과가 나오면 잘 된 겁니다. 
+다음과 같은 실행 결과가 나오면 잘 된 겁니다. 
 
 ~~~ bash
 $ ./run-e2e.sh 
