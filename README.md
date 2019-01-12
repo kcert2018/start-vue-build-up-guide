@@ -4,6 +4,10 @@ Vue로 개발하려는 초보자들을 위한 가이드 문서입니다.
 
 > 유영창 : frog@falinux.com
 
+## 목차
+
+[TOC]
+
 ## 들어가며
 
 Vue 와 관련 소개글을 읽으면, 쉽다는 생각이 듭니다. 도전 의지도 마구 마구 생깁니다.  
@@ -283,7 +287,7 @@ REPOSITORY           TAG   IMAGE ID            CREATED             SIZE
 start/home-main-ds   0.1   eea14f3fade5        6 hours ago         1.35GB
 ~~~
 
-자 개발 할 준비가 모두 끝났습니다. 쉽쥬 ?
+자! 개발 할 준비가 모두 끝났습니다. 쉽쥬 ?
 
 
 
