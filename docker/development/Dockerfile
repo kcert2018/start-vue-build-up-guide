@@ -4,8 +4,6 @@ MAINTAINER David You <frog@falinux.com>
 
 ENV DEBIAN_FRONTEND noninteractive
 
-# USER root
-
 RUN apt-get update
 
 RUN apt-get install -y locales

@@ -15,7 +15,7 @@ services:
       CYPRESS_CACHE_FOLDER: /apps/.cypress-cache
     command: bash
 
-  vue-cli-3-ds :
+  start-vue-cli-3-ds :
     build:
       context    : ./development
       dockerfile : Dockerfile
