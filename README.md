@@ -620,7 +620,7 @@ Done in 1.71s.
 
 run-unit.sh 이름으로 다음과 같이 작성합니다. 
 
-> [docker/run-unit.sh]()
+> [docker/run-unit.sh](https://github.com/kcert2018/start-vue-build-up-guide/blob/master/docker/run-unit.sh)
 
 ~~~ bash
 #!/bin/bash
@@ -651,6 +651,121 @@ $ ./run-unit.sh
  MOCHA  Tests completed successfully
 
 Done in 4.65s.
+~~~
+
+### E2E 시험 스크립트 - run-e2e.sh
+
+각 화면이 하나 끝나거나 전체가 화면 단위로 돌아가면 사용자가 실제로 보거나 동작 시키는 것이 정상적으로 수행되는지 시험을 해야 합니다. 
+
+브라우저 상태로 동작하는 것을 시험하는 이것을 E2E 로 합니다. 
+
+당근 프로그램으로 자동화 하여야 하지 않겠습니까?
+언제까지 클릭질을 하시면 디버깅하시겠습니까?
+
+이런 E2E 시험을 하기 위해서, cypress 테스트 환경이 정상적으로 구축되었는지를 확인하기 위해서 run-e2e.sh 스크립트를 만들어서 시험해 봅니다. 
+
+run-e2e.sh 이름으로 다음과 같이 작성합니다. 
+
+> [docker/run-e2e.sh]()
+
+~~~ bash
+#!/bin/bash
+echo -e "\\033]2;start home main e2e\\007"
+docker-compose run --name start-home-main-e2e \
+  --rm \
+  -u $(id -u ${USER}):$(id -g ${USER}) \
+  --workdir /apps/home-main/ \
+  start-home-main-ds \
+  yarn run test:e2e --headless
+~~~
+
+앞에서 설명한 run-lint 와 내용은 비슷한데 가장 마지막 줄인 yarn run test:unit 만 다릅니다. 
+
+다음과 같이 실행 결과가 나오면 잘 된 겁니다. 
+
+~~~ bash
+$ ./run-e2e.sh 
+
+yarn run v1.9.4
+$ vue-cli-service test:e2e --headless
+ INFO  Starting e2e tests...
+ INFO  Starting development server...
+ 98% after emitting CopyPlugin                                                   
+
+ DONE  Compiled successfully in 2877ms                                                                                                                                                                                                12:13:19
+
+ 
+  App running at:
+  - Local:   http://localhost:8080/ 
+
+  It seems you are running Vue CLI inside a container.
+  Access the dev server via http://localhost:<your container's external mapped port>/
+
+  Note that the development build is not optimized.
+  To create a production build, run yarn build.
+
+ ✔  Verified Cypress! /apps/.cypress-cache/3.1.4/Cypress
+
+====================================================================================================
+
+  (Run Starting)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Cypress:    3.1.4                                                                              │
+  │ Browser:    Electron 59 (headless)                                                             │
+  │ Specs:      1 found (test.js)                                                                  │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running: test.js...                                                                      (1 of 1) 
+(node:236) Warning: Promise.defer is deprecated and will be removed in a future version. Use new Promise instead.
+(node:236) Warning: Promise.defer is deprecated and will be removed in a future version. Use new Promise instead.
+
+
+  My First Test
+    ✓ Visits the app root url (534ms)
+
+
+  1 passing (579ms)
+
+
+  (Results)
+
+  ┌─────────────────────────┐
+  │ Tests:        1         │
+  │ Passing:      1         │
+  │ Failing:      0         │
+  │ Pending:      0         │
+  │ Skipped:      0         │
+  │ Screenshots:  0         │
+  │ Video:        true      │
+  │ Duration:     0 seconds │
+  │ Spec Ran:     test.js   │
+  └─────────────────────────┘
+
+
+  (Video)
+
+  - Started processing:   Compressing to 32 CRF
+  - Finished processing:  tests/e2e/videos/test.js.mp4 (0 seconds)
+
+
+====================================================================================================
+
+  (Run Finished)
+
+
+      Spec                                                Tests  Passing  Failing  Pending  Skipped 
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ ✔ test.js                                   566ms        1        1        -        -        - │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+    All specs passed!                           566ms        1        1        -        -        -  
+
+(node:236) Warning: a promise was created in a handler at /apps/.cypress-cache/3.1.4/Cypress/resources/app/packages/server/lib/cypress.js:21:20 but was not returned from it, see http://goo.gl/rRqMUw
+    at Function.Promise.cast (/apps/.cypress-cache/3.1.4/Cypress/resources/app/packages/server/node_modules/bluebird/js/release/promise.js:195:13)
+Done in 14.79s.
 ~~~
 
 
