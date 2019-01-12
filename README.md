@@ -552,7 +552,7 @@ lint 문법 검사를 하는 run-lint.sh 스크립트를 만들어서 사용하�
 
 run-lint.sh 이름으로 다음과 같이 작성합니다. 
 
-> [docker/run-lint.sh]()
+> [docker/run-lint.sh](https://github.com/kcert2018/start-vue-build-up-guide/blob/master/docker/run-lint.sh)
 
 ~~~ bash
 #!/bin/bash
@@ -606,6 +606,54 @@ $ vue-cli-service lint
  DONE  No lint errors found!
 Done in 1.71s.
 ~~~
+
+### 단위 시험 스크립트 - run-unit.sh
+
+보통 개발 과정에서는 run-lint 로 문법 검사만 수행하다가 실제로 하나의 단위 작업이 끝나면 단위 테스트를 수행해서 문제가 없는지 검사 합니다. 
+태스트 주도 개발 인 TDD 나 BDD 방식으로 개발하면 단위 테스트는 해당 페이지를 개발 하기 전에 작성됩니다. 
+
+국내의 대부분 개발 문화는 이 부분을 많이 무시하는데. 그래서 개발 속도가 늦죠(아 안습~~~)
+
+어쨌든 처음 하시는 분은 단위 시험을 생활화 하여 조기 퇴근하는 문화를 만들기 바랍니다. 
+
+그래서 단위 테스트 환경이 잘 구축 되어 있는 확인도 할 겸, run-unit.sh 스크립트를 만들어서 시험해 봅니다. 
+
+run-unit.sh 이름으로 다음과 같이 작성합니다. 
+
+> [docker/run-unit.sh]()
+
+~~~ bash
+#!/bin/bash
+echo -e "\\033]2;start home main unit\\007"
+docker-compose run --name start-home-main-unit \
+  --rm \
+  -u $(id -u ${USER}):$(id -g ${USER}) \
+  --workdir /apps/home-main/ \
+  start-home-main-ds \
+  yarn run test:unit
+~~~
+
+앞에서 설명한 run-lint 와 내용은 비슷한데 가장 마지막 줄인 yarn run test:unit 만 다릅니다. 
+
+다음과 같이 실행 결과가 나오면 잘 된 겁니다. 
+
+~~~ bash
+$ ./run-unit.sh 
+
+ WEBPACK  Compiled successfully in 2824ms
+ MOCHA  Testing...
+
+  HelloWorld.vue
+    ✓ renders props.msg when passed
+
+  1 passing (26ms)
+
+ MOCHA  Tests completed successfully
+
+Done in 4.65s.
+~~~
+
+
 
 ## apollo 패키지 추가 
 
