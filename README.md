@@ -262,17 +262,20 @@ docker rmi start/home-main-ds:0.1
 docker-compose build start-vue-cli-3-ds 
 ~~~
 
-이 스크립트는 기존에 작성된 이미지를 제우고 docker-compose build 명령을 이용하여 새로운 이미지를 만듭니다. 
+이 스크립트는 기존에 작성된 이미지를 지우고 docker-compose build 명령을 이용하여 새로운 이미지를 만듭니다. 
 
 ### 이미지 생성
 
 start/home-main-ds:0.1 란 이름의 도커 이미지를 생성하기 위해서 build-dev.sh 을 다음과 같이 실행하여 생성합니다. 
 
-생성이 끝난 후 docker images 명령을 사용하여 정상적으로 생성된 것을 확인 합니다. 
-
-~~~
+~~~ bash
 $ cd ~/start-study/docker
 $ ./build-dev.sh 
+~~~
+
+생성이 끝난 후 docker images 명령을 사용하여 정상적으로 생성된 것을 확인 합니다. 
+
+~~~ bash
 $ docker images | grep start
 $ docker images
 REPOSITORY           TAG   IMAGE ID            CREATED             SIZE
@@ -280,6 +283,7 @@ REPOSITORY           TAG   IMAGE ID            CREATED             SIZE
 start/home-main-ds   0.1   eea14f3fade5        6 hours ago         1.35GB
 ~~~
 
+자 개발 할 준비가 모두 끝났습니다. 쉽쥬 ?
 
 
 
