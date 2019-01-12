@@ -898,7 +898,7 @@ $ ./run-e2e.sh
 
 run-dev-apollo.sh 스크립트를 다음과 같이 작성하고 실행 합니다. 
 
-> [docker/run-dev-apollo.sh]()
+> [docker/run-dev-apollo.sh](https://github.com/kcert2018/start-vue-build-up-guide/blob/master/docker/run-dev-apollo.sh)
 
 ~~~ bash
 #!/bin/bash
@@ -939,7 +939,7 @@ apollo 개발 서버를 수행한 후 프런트 앤드 개발 서버를 실행�
 화면상에 특별하게 바뀐것은 없습니다. 왜냐하면 apollo 프런트 앤드 화면은 샘플로만 
 제공 되기 때문입니다. 
 
-여기서는 설치만 확인 하는 수준으로 만족합니다. 이 후 따라하기 과정에 다룰 것입니다. 
+여기서는 설치만 확인 하는 수준으로 만족합니다. 이 후 따라하기 과정에서 다룰 것입니다. 
 
 ## vuetify 패키지 추가 
 
