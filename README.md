@@ -67,7 +67,7 @@ Vue 와 관련 소개글을 읽으면, 쉽다는 생각이 듭니다. 도전 의
 오랬동안 삽질한 결과, 항상 project 폴더를 홈디렉토리 밑에 만듭니다. 
 초보자시라면 당분간 그냥 project 폴더를 홈디렉토리 밑에 만드십시오
 
-여기서는 start-study 라는 폴더로 만들고 이후에는 이 폴더명은 따로 언급하지 않을 겁니다. 
+여기서는 start-study 라는 폴더로 만들고 이후에는 이 폴더명을 따로 언급하지 않을 겁니다. 
 
 다음과 같이 만들기 바랍니다. 
 
@@ -103,3 +103,38 @@ $ mkdir docker
 $ mkdir kube
 ~~~
 
+### docker-compose.yml 작성
+
+개발 환경을 도커 환경을 만들기 위해서 docker-compose 를 사용합니다. 
+이때 필요한 파일이 docker-compose.yml 입니다. 
+
+이 파일을 docker 폴더 밑에 다음과 같이 작성합니다. 
+
+> [docker/docker-compose.yml]()
+
+~~~ yaml
+#
+# 이 파일은 도커를 관리하는 파일입니다. 
+#
+version: '2'
+services:
+  start-home-main-ds:
+    image: start/home-main-ds:0.1
+    container_name: start-home-main-ds
+    volumes:
+      - ../apps/:/apps
+    network_mode: "host"
+    privileged: true
+    environment:
+      NODE_ENV: development
+      CYPRESS_CACHE_FOLDER: /apps/.cypress-cache
+    command: bash
+
+  vue-cli-3-ds:
+    build:
+      context: ./development
+      dockerfile: Dockerfile
+    image: start/home-main-ds:0.1
+
+# end of file
+~~~

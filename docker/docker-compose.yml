@@ -1,0 +1,24 @@
+#
+# 이 파일은 도커를 관리하는 파일입니다. 
+#
+version: '2'
+services:
+  start-home-main-ds:
+    image        : start/home-main-ds:0.1
+    container_name : start-home-main-ds
+    volumes:
+      - ../apps/:/apps
+    network_mode: "host"
+    privileged: true
+    environment:
+      NODE_ENV: development
+      CYPRESS_CACHE_FOLDER: /apps/.cypress-cache
+    command: bash
+
+  vue-cli-3-ds :
+    build:
+      context    : ./development
+      dockerfile : Dockerfile
+    image        : start/home-main-ds:0.1
+
+# end of file
