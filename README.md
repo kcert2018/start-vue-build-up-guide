@@ -4,9 +4,9 @@ Vue로 개발하려는 초보자들을 위한 가이드 문서입니다.
 
 > 유영창 : frog@falinux.com
 
-## 목차
+* auto-gen TOC:
+{:toc}
 
-[TOC]
 
 ## 들어가며
 
