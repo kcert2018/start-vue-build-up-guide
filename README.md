@@ -108,7 +108,7 @@ $ mkdir kube
 개발 환경을 도커 환경을 만들기 위해서 docker-compose 를 사용합니다. 
 이때 필요한 파일이 docker-compose.yml 입니다. 
 
-이 파일을 docker 폴더 밑에 다음과 같이 작성합니다. 
+docker 폴더 밑에 docker-compose.yml을 다음과 같이 작성합니다. 
 
 > [docker/docker-compose.yml](https://github.com/kcert2018/start-vue-build-up-guide/blob/master/docker/docker-compose.yml)
 
@@ -138,3 +138,27 @@ services:
 
 # end of file
 ~~~
+
+따라하는 과정에서 이 파일을 당장 이해할 필요는 없습니다. 
+
+여기서는 어떤 것을 정의 하는지 간단하게만 정리합니다. 
+
+docker-compose.yml 환경 파일은 docker-compose 가 사용합니다. 
+
+도커 이미지 생성 관련된 것은 vue-cli-3-ds 섹션에서 정의합니다.
+development/Dockerfile 을 이용합니다.
+start/home-main-ds:0.1 라는 이름으로 아마자가 만들어집니다. 
+
+개발 환경 컨네이너는 start-home-main-ds 섹션에서 정의 합니다. 
+
+이 컨테이너는 호스트 PC와 포트를 공유하고 root 권한으로 실행됩니다. 
+
+소스를 포함한 디렉토리인 "apps" 폴더를 컨테이너 내부적에 "/apps" 로 연결합니다. 
+
+개발 환경임을 알리기 위해서 환경 변수 NODE_ENV 를 development 로 설정합니다. 
+
+E2E 테스트를 위해 캐쉬 폴더를 CYPRESS_CACHE_FOLDER 환경 변수를 이용하여 /apps/.cypress-cache 설정합니다. 
+
+### docker-compose.yml 작성
+
+
