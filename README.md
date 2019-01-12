@@ -567,7 +567,7 @@ docker-compose run --name start-home-main-ds-lint \
 
 앞에서 설명한 run-bash 와 내용은 비슷한데 가장 마지막 줄인 yarn run lint 만 다릅니다. 
 
-이 명령으로 사용 가는한 것은 apps/home-main/package.json 의 scripts 세션에 선언된  키  이름들을 사용하면 됩니다. 
+이 명령으로 사용 가능한 것은 apps/home-main/package.json 의 scripts 세션에 선언된  키  이름들입니다.
 
 > apps/home-main/package.json
 ~~~ json
@@ -585,13 +585,13 @@ docker-compose run --name start-home-main-ds-lint \
     :
 ~~~
 
-현재까지 각 의미는 다음과 같습니다. 
+위 처럼 현재까지 진행으로 생성된 package.json 의 scripts 세션 각 키의 의미는 다음과 같습니다. 
 
-  serve - 개발 서버를 수행하여 실시간 웹 수정이 가능하도록 만듭니다. 
-  build - 서비스를 하는 실제 서버에 올릴 배포 패키지를 만듭니다. 
-  lint - 문법을 검사하고 수정 위치와 원인을 알려 줍니다. 
-  test:e2e - E2E 테스트를 수행합니다.
-  test:unit - 단위 테스트를 수행합니다. 
+* serve - 개발 서버를 수행하여 실시간 웹 수정이 가능하도록 만듭니다. 
+* build - 서비스를 하는 실제 서버에 올릴 배포 패키지를 만듭니다. 
+* lint - 문법을 검사하고 수정 위치와 원인을 알려 줍니다. 
+* test:e2e - E2E 테스트를 수행합니다.
+* test:unit - 단위 테스트를 수행합니다. 
 
 ## apollo 패키지 추가 
 
