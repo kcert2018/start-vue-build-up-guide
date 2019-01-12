@@ -71,7 +71,7 @@ Vue 와 관련 소개글을 읽으면, 쉽다는 생각이 듭니다. 도전 의
 
 다음과 같이 만들기 바랍니다. 
 
-~~~ shell
+~~~ bash
 $ cd ~
 $ mkdir start-study
 $ cd start-study
@@ -95,7 +95,7 @@ github 의 문서로 이글을 보시고 계시다면 이 프로젝트 자체가
 
 다음 명령을 사용하시면 됩니다. 
 
-~~~ shell
+~~~ bash
 $ cd ~/start-study
 $ mkdir apps
 $ mkdir doc
@@ -158,7 +158,7 @@ services:
 
 docker/development 폴더를 만들고 Dockerfile를 다음과 같이 작성합니다. 
 
-> [docker/development/Dockerfile]()
+> [docker/development/Dockerfile](https://github.com/kcert2018/start-vue-build-up-guide/blob/master/docker/development/Dockerfile)
 
 ~~~ dockerfile
 FROM node:8.12.0
@@ -250,4 +250,30 @@ CMD bash
 * vue cli 3.0
 * cypesss E2E 테스트를 위한 크롬 브라우저
  
+### 빌드 스크립트 - build-dev.sh
+
+docker 또는 docker-compose 명령을 사용해서 직접 이미지를 생성할 수 있지만 나중을 위해서 스크립트를 만들어 두는 것이 머리털 안 빠지는 삶의 지혜입니다. 
+
+build-dev.sh 이름으로 다음과 같이 작성합니다. 
+
+> [docker/build-dev.sh]()
+
+~~~ bash
+#!/bin/bash
+docker rmi start/home-main-ds:0.1
+docker-compose build start-vue-cli-3-ds 
+~~~
+
+
+
+
+
+
+
+
+
+
+
+
+
 
