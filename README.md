@@ -776,7 +776,7 @@ Done in 14.79s.
 
 run-dev.sh 이름으로 다음과 같이 작성합니다. 
 
-> [docker/run-dev.sh]()
+> [docker/run-dev.sh](https://github.com/kcert2018/start-vue-build-up-guide/blob/master/docker/run-dev.sh)
 
 ~~~ bash
 #!/bin/bash
@@ -817,21 +817,129 @@ $ vue-cli-service serve
 
 제대로 동작하는지를 확인 하기 위해서 크롬 브라우저를 실행하고 http://localhost:8080/ 로 접속해 봅니다. 
 
-[**A000 초기 구축 실행 화면**]
+접속 후 개발 과정에는 습관적으로 F12 키를 눌러 개발 창을 엽니다. 
+
+다음은 정상적으로 동작하는 화면입니다. 
+
+여러분들도 여기까지 보였다면  
+오우! 추카 추카...
+
+[**A000: 초기 구축 실행 화면**]
 ![A000 초기 구축 실행 화면](doc/images/A000-vue-first.png)
 
-
 ## apollo 패키지 추가 
+
+슬프지만 여기가 끝이 아닙니다.  
+프런트앤드는 백엔드 없이 동작하지 않습니다. 
+예전에는 REST API 라는 방식과 소켓만으로 서버에 접근했지만 이제 막강한 GraphQL 도 지원해야 합니다. 프런트앤드에는 GraphQL 사용하기 위한 막강한 툴인 apollo 가 있습니다.
+
+당연히 Vue CLI 3.0 도 apollo 를 초기 구축에 사용할 수 있습니다. 
+
+apollo 패키지를 추가 하기 위해서 run-bash.sh 을 사용하여 개발 환경 컨테이너로 들어 갑니다.
+
+~~~
+$ ./run-bash.sh
+~~~
+그리고 vue add apollo 명령을 사용하여 apollo 를 추가 합니다. 
 
 ~~~
 $ cd home-main
 $ vue add apollo
-  ? Add example code (y/N) Y
-  ? Add a GraphQL API Server? (y/N) Y
-  ? Enable automatic mocking? (y/N) Y 
-  ? Add Apollo Engine? (y/N) N
+~~~
+
+패키지 인스톨이 끝나면 apolo 관련된 선택 사항에 대한 질문이 나옵니다. 
 
 ~~~
+  ? Add example code (y/N) Y
+~~~
+
+에제 코드를 추가 할 것인가를 묻습니다. 
+앞으로의 학습을 위해서 Y 를 선택합니다. 
+
+~~~
+  ? Add a GraphQL API Server? (y/N) Y
+~~~
+
+테스트용 GraphQL API 서버를 추가할 것인가를 묻습니다. 
+개발을 편하게 하기 위해서 Y 를 선택합니다. 
+
+~~~
+  ? Enable automatic mocking? (y/N) Y 
+~~~
+
+자동 목킹을 활성화 할 것인가를 묻습니다. Y 를 선택합니다. 
+
+~~~
+  ? Add Apollo Engine? (y/N) N
+~~~
+
+아폴로 엔진을 사용할 것인가를 묻습니다. 
+이것은 apollo 개발 회사가 제공하는 플랫폼을 사용할 것인가를 묻는데 아니오인 N 를 선택합니다. 
+
+설치 과정이 진행이 끝나면 exit 명령을 수행하여 컨테이너를 종료 합니다. 
+
+~~~
+$ exit
+~~~
+
+이제 앞에서 작성한 스크립트들을 차례로 수행하여 정상적으로 진행되는 가를 확인 합니다. 
+
+~~~
+$ ./run-lint.sh
+$ ./run-unit.sh
+$ ./run-e2e.sh 
+~~~~
+
+이 과정은 앞과 동일하므로 이 문서에는 기술하지 않겠습니다. 
+
+이제 apollo 를 추가 한 것이 제대로 되었는지 확인하기 위해서 run-dev.sh 를 수행할 것입니다. 
+
+개발 서버를 띄우기 전에 apollo API 개발 지원 서버를 먼저 수행해 주어야 합니다. 
+
+run-dev-apollo.sh 스크립트를 다음과 같이 작성하고 실행 합니다. 
+
+> [docker/run-dev-apollo.sh]()
+
+~~~ bash
+#!/bin/bash
+echo -e "\\033]2;start home main develop apollo sever\\007"
+docker-compose run --name start-home-main-dev-apollo-server \
+  --rm \
+  -u $(id -u ${USER}):$(id -g ${USER}) \
+  --workdir /apps/home-main/ \
+  start-home-main-ds \
+  yarn run apollo
+~~~
+
+앞에서 설명한 run-dev 와 내용은 비슷한데 가장 마지막 줄인 apollo 만 다릅니다. 
+
+다음과 같이 수행하여 개발용 apollo 서버를 동작 시킵니다. 
+
+~~~ bash
+$ ./run-dev-apollo.sh
+
+yarn run v1.9.4
+$ vue-cli-service apollo:watch
+$ vue-cli-service apollo:run --delay
+Using default PubSub implementation for subscriptions.
+You should provide a different implementation in production (for example with Redis) by exporting it in 'apollo-server/pubsub.js'.
+✔️  Automatic mocking is enabled
+✔️  GraphQL Server is running on http://localhost:4000/graphql
+✔️  Type rs to restart the server
+~~~
+
+apollo 개발 서버를 수행한 후 프런트 앤드 개발 서버를 실행합니다. 
+
+~~~ bash
+ $ ./run-dev.sh 
+~~~
+
+크롬 브라우저를 실행하고 http://localhost:8080/ 로 접속해 봅니다. 
+
+화면상에 특별하게 바뀐것은 없습니다. 왜냐하면 apollo 프런트 앤드 화면은 샘플로만 
+제공 되기 때문입니다. 
+
+여기서는 설치만 확인 하는 수준으로 만족합니다. 이 후 따라하기 과정에 다룰 것입니다. 
 
 ## vuetify 패키지 추가 
 
