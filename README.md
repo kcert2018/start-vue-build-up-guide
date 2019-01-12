@@ -943,6 +943,109 @@ apollo 개발 서버를 수행한 후 프런트 앤드 개발 서버를 실행�
 
 ## vuetify 패키지 추가 
 
+vuetify 는 구글 매터리얼 디자인을 구현해 놓은 스타일 프레임워크 패키지 입니다. 
+유명한 부트스트랩 같은 겁니다. 
+
+이 패키지는 vue 명령으로 설치하지 않고 yarn 으로 설치 합니다. 
+그래서 만들어진 소스를 살짝 고쳐야 합니다. 
+당장은 화면 변화는 없겠지만 이후 목적하는 프로그램을 만들어 가면서 수정할 것입니다.
+
+apollo 패키지를 추가 했던 과정과 유사 합니다. 
+
+수행 중이던 개발 서버 컨테이너를 중지 하고 run-bash.sh 을 사용하여 개발 환경 컨테이너로 들어 갑니다.
+
 ~~~
-$ vue add vuetify
+$ ./run-bash.sh
 ~~~
+
+그리고 yarn add -D vuetify 명령을 사용하여 vuetify 모듈을 추가 합니다. 
+
+~~~
+$ cd home-main
+$ yarn add -D vuetify
+   :
+[4/4] Building fresh packages...
+success Saved lockfile.
+success Saved 1 new dependency.
+info Direct dependencies
+└─ vuetify@1.4.1
+info All dependencies
+└─ vuetify@1.4.1
+Done in 20.60s.
+~~~
+
+vuetify 를 이용해 화면을 구성하다보면 매터리얼 디자인 아이콘을 자주 사용하게 되는데
+이 와 관련된 패키지를 다음과 같이 추가 합니다. 
+
+~~~
+$ yarn add -D material-design-icons-iconfont
+   :
+[4/4] Building fresh packages...
+success Saved lockfile.
+warning Your current version of Yarn is out of date. The latest version is "1.13.0", while you're on "1.9.4".
+info To upgrade, run the following command:
+$ curl --compressed -o- -L https://yarnpkg.com/install.sh | bash
+success Saved 1 new dependency.
+info Direct dependencies
+└─ material-design-icons-iconfont@4.0.3
+info All depend
+~~~
+
+개발 환경 컨테이너를 exit 명령으로 종료 하고 다음과 같이 소스를 수정합니다. 
+
+main.js 의 import 선언된 끝 부분에 다음을 추가 합니다. 
+
+> apps/home-main/src/main.js
+
+~~~
+import Vuetify from 'vuetify'
+import 'vuetify/dist/vuetify.min.css'
+import 'material-design-icons-iconfont/dist/material-design-icons.css'
+
+Vue.use(Vuetify)
+~~~
+
+vuetify 는 폰트로 구글의 Roboto 폰트를 사용합니다.
+Roboto 는 구글 사이트에서 제공하고 이 폰트 링크를 포함 시켜야 합니다.
+index.html 파일의 <head> 태그 사이에 다음과 같이 추가 해야 합니다.
+
+~~~ html
+<link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
+~~~
+
+> apps/home-main/public/index.html
+
+~~~ HTML
+    :
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
+    <title>home-main</title>
+  </head>
+   :
+~~~
+
+이제 기본적인 추가가 끝났으므로 먼저 다음 스크립트를 실행하여 이상이 없는가를 검증합니다.
+
+~~~
+$ ./run-lint.sh
+$ ./run-unit.sh
+$ ./run-e2e.sh 
+~~~~
+
+이제 run-dev.sh 스크립트를 실행하여 프런트 앤드 개발 서버를 실행합니다.
+
+크롬 브라우저를 실행하고 http://localhost:8080/ 로 접속해 봅니다. 
+
+F12 를 눌러 개발자 도구를 활성화 하여 Console 창에 에러가 없는가를 확인 합니다. 
+
+여기까지 아무 문제가 없다면 
+
+진짜 진짜 축하 드립니다. 이제 개발만 하면 됩니다. 
+
+저도 여기까지 쓰느라 죽는 줄 알았습니다. 
+만세~~~
+

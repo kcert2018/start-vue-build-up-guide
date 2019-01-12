@@ -36,8 +36,10 @@
     "eslint-plugin-vue": "^5.0.0",
     "graphql-tag": "^2.9.0",
     "lint-staged": "^8.1.0",
+    "material-design-icons-iconfont": "^4.0.3",
     "vue-cli-plugin-apollo": "^0.19.1",
-    "vue-template-compiler": "^2.5.21"
+    "vue-template-compiler": "^2.5.21",
+    "vuetify": "^1.4.1"
   },
   "gitHooks": {
     "pre-commit": "lint-staged"
