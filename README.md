@@ -593,6 +593,20 @@ docker-compose run --name start-home-main-ds-lint \
 * test:e2e - E2E 테스트를 수행합니다.
 * test:unit - 단위 테스트를 수행합니다. 
 
+자 이제 만든 run-linut.sh 스크립트를 이용하여 문법 검사를 다음과 같이 수행해 봅니다.
+이것은 패키지가 잘 설치되고 새 프로젝트가 잘 생성되었는지 검사 하는 의미도 있습니다.
+
+다음과 같이 실행 결과가 나오면 잘 된 겁니다. 
+
+~~~ bash
+$ ./run-lint.sh 
+
+yarn run v1.9.4
+$ vue-cli-service lint
+ DONE  No lint errors found!
+Done in 1.71s.
+~~~
+
 ## apollo 패키지 추가 
 
 ~~~
