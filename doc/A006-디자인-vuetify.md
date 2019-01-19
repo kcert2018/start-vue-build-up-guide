@@ -214,6 +214,146 @@ export default {
 </style>
 ~~~
 
+이제 각 부분과 데이터 및 이벤트의 연관성을 소스를 통해 살펴 보겠습니다. 
+
+뷰 컴포넌트를 구성하는데 vuetify 를 사용하면 가장 먼저 외곽을 `<v-container>' 로 감쌉니다. 
+
+vuetify 는 반응형과 그리드 구성이 가능하려면 v-container 태그를 다음과 같이 감싸야 합니다. 
+
+~~~ javascript
+<v-container id="home-main" fluid class="ma-0 pa-0">
+   :
+</v-container>
+~~~
+
+여기서 사용한 fluid 옵션의 의미는 다음과 같습니다. 
+
+* fluid : v-container 를 사용하는 부모의 폭(width)을 다 사용함(width=100%;)
+
+class="ma-0 pa-0" 의 각각의 의미는 다음과 같습니다. 
+
+* ma-0 : margin all 의 약자인 ma 와 값을 모두 0 으로 설정 한다는 의미
+* pa-0 : padding all 의 약자인 pa 와 값을 모두 0 으로 설정한다는 의미 
+
+vuetify 에서 마진과 패딩 값은 class 를 이용하여 조절할 수 있습니다. 
+이 부분은 다음 링크를 참조 하시면 됩니다.
+
+> https://vuetifyjs.com/ko/framework/spacing
+
+이제 화면에 필요한 이미지와 캐치 플레이 요소를 구현하기 위해서 v-parallax 와 v-layout 요소를 사용합니다. 
+
+v-parallax 는 이미지를 화면에 표출하기 위한 것으로 매터리얼 디자인의 parallax 를 구현합니다.  
+v-layout 는 내부 컴포넌트들을 정렬 하기 위한 레이아웃 컴포넌트 입니다. 주로 v-flex 와 조합되어 사용됩니다. 
+
+v-parallax 의 구현 부분을 자세하게 살표 보죠
+
+~~~ javascript
+<v-parallax
+  dark
+  height=400
+  src="https://img-s2.onedio.com/id-56ddb4ad606fe1702c52c2b9/rev-0/raw/s-b980e3a17a58f7b7e1021f2df2ddf4c918ca0401.jpg"
+>
+~~~
+
+여기서 각 옵션은 다음과 같습니다. 
+
+* dark : 어두운 테마의 색을 사용하여 컴포넌트를 표현합니다. 
+* height : 이미지의 높이를 지정된 크기로 맞춥니다.
+* src : 외부 이미지를 url 로 지정할 수 도 있고 내부 이미지를 지정할 수 있습니다. 
+
+v-parallax 이미지 위에 캐치 프레이를 표현하기 위해서 v-layout 을 다음과 같이 사용합니다. 
+
+~~~ javascript
+<v-layout
+  align-center
+  column
+  justify-center
+>
+~~~
+
+여기서 사용되는 옵션의 의미는 다음과 같습니다.
+
+* align-center : 내부에 포함된 컴포넌트를 감싸는 영역을 수직의 가운데에 배치합니다. 
+* justify-center : 내부에 포함된 컴포넌트를 감싸는 영역을 수평의 가운데에 배치합니다. 
+* column : 내부에 포함된 컴포넌트는 수직으로 나열됩니다.
+
+여기서 내부 컴포넌트는 다음 HTML 요소로 소스를 구성하여 캐치 플레이를 정 중앙에 정렬하여 표현하고 있습니다.
+
+~~~ javascript
+<h1 class="display-2 mb-3 yellow--text">Messages !</h1>
+<h4 class="subheading">Send your message to the world !</h4>
+~~~
+
+로그인을 위한 이메일 입력 컴포넌트와 로그인 버튼을 감싸기 위해 다음과 같이 구성합니다. 
+
+~~~ javascript
+<v-container>
+  <v-layout
+    align-center
+    column
+  >
+     :
+  </v-layout>
+</v-container>
+~~~
+
+v-container 에 fluid 옵션을 주지 않았기 때문에 내부에 구성된 컴포넌트의 최대 크기가 컨테이너의 최대 크기가 됩니다. 
+
+이제 입력 과 버튼을 구현하기 위해서 코드를 다음과 같이 작성되었습니다. 
+
+~~~ javascript
+<v-text-field
+  id="lbEmail"
+  v-model="email"
+  label="E-mail"
+></v-text-field>
+
+<v-btn
+  id="btnLogin"
+  color="warning"
+  @click="clickLogin"
+>Login</v-btn>
+~~~
+
+v-text-field 는 텍스트 입력 처리하기 위한 컴포넌트 입니다. 입력된 값은 v-model 에 정의된 변수로 선언됩니다.
+
+~~~ javascript
+  v-model="email"
+~~~
+
+이 변수를 처리하기 위해서 `<script>` 부분에서 data 프러퍼티에 정의 합니다. 
+
+~~~ javascript
+<script>
+  :
+export default {
+    :
+  data () {
+    return {
+      email: ''
+~~~
+
+버튼은 사용자가 클릭을 하면 클릭 이벤트가 발생하는데 이를 처리하는 것은 @click="clickLogin" 입니다.
+
+이 함수는 `<script>` 부분에서 methods 프러퍼티에 정의 합니다. 
+
+~~~ javascript
+<script>
+  :
+export default {
+      :
+  methods: {
+      :
+    clickLogin () {
+      if (this.email) {
+        this.$router.push({ name: 'messages-main' })
+      }
+    }
+  },    
+~~~
+
+클릭이 눌리면 라우팅을 처리하여 메세지 페이지로 이동하게 합니다. 
+
 ### messages-main.vue 수정 
 
 다음에 구현해야 하는 것은 메세지들을 보내고 수신된 메세지를 보는 messages-main.vue 를 수정할 겁니다.
@@ -350,6 +490,16 @@ export default {
 <style scoped>
 </style>
 ~~~
+
+
+
+
+fluid : v-container 를 사용하는 부모의 폭(width)을 다 사용함 즉 width=100% 와 같은 의미입니다. 
+fill-height: v-container 는 브라우저 윈도우의 높이를 모두 사용하겠다는 의미 입니다. 
+
+
+
+
 
 
 ### 따라하기 실행 화면 
