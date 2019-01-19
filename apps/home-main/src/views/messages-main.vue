@@ -16,8 +16,8 @@
 
               <v-list-tile :key="(index+'tl')" class="pt-0 pb-0">
                 <v-list-tile-content>
-                  <v-list-tile-title >{{message.email}} <span class="caption cyan--text">- {{message.date}}</span></v-list-tile-title>
-                  <v-list-tile-sub-title >{{message.text}}</v-list-tile-sub-title>
+                  <v-list-tile-title>{{message.email}} <span class="caption cyan--text">- {{message.date}}</span></v-list-tile-title>
+                  <v-list-tile-sub-title>{{message.text}}</v-list-tile-sub-title>
                 </v-list-tile-content>
               </v-list-tile>
 

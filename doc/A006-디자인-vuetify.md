@@ -352,7 +352,7 @@ export default {
   },    
 ~~~
 
-클릭이 눌리면 라우팅을 처리하여 메세지 페이지로 이동하게 합니다. 
+클릭이 되면 라우팅을 처리하여 메세지 페이지로 이동하게 합니다. 
 
 ### messages-main.vue 수정 
 
@@ -491,16 +491,156 @@ export default {
 </style>
 ~~~
 
+뷰 컴포넌트를 구성하기 위해서 home-main.vue 와 같은 방식을 사용합니다. 
 
+~~~ javascript
+<v-container id="messages-main" fluid fill-height>
+   :
+</v-container>
+~~~
 
+여기서 사용한 fill-height 옵션의 의미는 다음과 같습니다. 
 
-fluid : v-container 를 사용하는 부모의 폭(width)을 다 사용함 즉 width=100% 와 같은 의미입니다. 
-fill-height: v-container 는 브라우저 윈도우의 높이를 모두 사용하겠다는 의미 입니다. 
+* fill-height: v-container 는 브라우저 윈도우의 높이를 모두 사용하겠다는 의미 입니다. 
 
+여기서는 앞에서 처럼 굳이 마진을 줄 필요가 없기 때문에 디폴트 마진을 사용합니다. 즉 class 를 이용해서 마진을 정의 하는 부분이 필요 없다는 의미입니다.
 
+messages-main.vue 에서는 메세지 목록을 보여 주는 부분과 메세지 텍스트를 입력하는 영역을 v-card 태그를 이용하여 영역을 나눕니다. 
 
+~~~ javascript
+<v-layout
+  align-center
+  column
+>
+  <v-card width=600>
+    :
+  </v-card>
 
+  <v-card width=600 class="mt-2">
+    :
+  </v-card>
 
+</v-layout>
+~~~
+
+v-card 는 div 의 변형된 것으로 매터리얼 디자인의 카드 를 구현한 것입니다.
+
+여기서는 강제로 가로 폭을 600 픽셀로 설정하였고 v-layuout 의 align-center 옵션을 사용하여 중안 정렬이 되도록 하였습니다.
+
+이제 메세지 리스트를 처리하는 부분을 살펴 보겠습니다. 
+
+메세지 리스트는 v-list 태그와 template 를 사용하여 리스트를 반복해서 표현합니다. 
+
+v-list 태그는 다음 링크에 설명이 되어 있습니다. 
+
+> https://vuetifyjs.com/ko/components/lists
+
+~~~ javascript
+<v-list two-line>
+  <template v-for="(message, index) in messages">
+    :
+  </template>
+</v-list>
+~~~
+
+v-list 의 two-line 옵션은 하나의 아이템이 두줄로 구성되어 표현된다는 의미입니다.
+
+template 의 반복문에 사용되는 messages 변수는 다음과 같이 script 섹션에서 정의 하고 있습니다. 
+
+~~~ javascript
+<script>
+     :
+export default {
+     :
+  data () {
+    return {
+      messages: [
+        { email: 'aaa@www.okmail.com', time: '23:37:00', text: 'ksadjfsladkfljkasdf asdkfsadklf sadfasdf sdaf' },
+          :
+        { email: 'aaa@www.okmail.com', time: '23:37:00', text: 'ksadjfsladkfljkasdf asdkfsadklf sadfasdf sdaf' }
+      ],
+~~~
+
+메세지 리스트를 선언하기 위해서 messages 데이터를 배열로 선언하고 각 아이템은 email, time, text 로 구성하도록 하였습니다. 
+
+* email 필드는 누가 메세지를 보냈는가를 표현합니다.  
+* time 필드는 메세지 발생 시간을 표현합니다. 
+* text 필드는 메세지 내용을 표현합니다.
+
+이 각 필드는 template 안에 선언된 v-list-title 로 감싸져서 각 메세지 내용을 표현합니다. 
+
+~~~ javascript
+<v-list-tile :key="(index+'tl')" class="pt-0 pb-0">
+  <v-list-tile-content>
+    <v-list-tile-title >{{message.email}} <span class="caption cyan--text">- {{message.date}}</span></v-list-tile-title>
+    <v-list-tile-sub-title >{{message.text}}</v-list-tile-sub-title>
+  </v-list-tile-content>
+</v-list-tile>
+~~~
+
+v-list-tile 은 내부에 포함 할 수 있는 태크로 v-list-tile-content, v-list-tile-action, v-list-title-avatar, v-list-title-title 이 사용되는데
+이 태그들은 각 행을 구별한다고 이해하시면 됩니다. 여기서는 v-list-tile-content 를 사용하였습니다. 
+
+v-list-tile-content 는 보통 다른 것과 사용했을 때 주로 중앙에 배치 됩니다. 이 태그 내부에 다시 v0list-title-title 등이 사용 가능합니다. 
+항상 기억하셔야 할 것이 vuetify 의 대부분의 태그들은 컴포넌트의 모양을 표현하기 위한 클래스 속성의 이름으로 생각하셔야지 제어 기능이 포함된 기능으로 생각하지 않아야 합니다. 
+
+메세지 리스트에 홈페이지 이동 아이콘을 처리 하기 위해서 v-toolbar 를 사용했습니다. 
+
+~~~ javascript
+<v-toolbar color="cyan" dark>
+  <v-icon @click="clickHome">home</v-icon>
+  <v-toolbar-title>Messages</v-toolbar-title>
+</v-toolbar>
+~~~
+
+이 중 icon 의 버튼 클릭을 선언하는 처리하기 위해서 다음과 같이 script 섹션에 선언합니다.
+
+~~~ javascript
+<script>
+      :
+export default {
+      :
+  methods: {
+      :
+    clickHome () {
+      this.$router.push({ name: 'home-main' })
+    },
+~~~
+    
+다음으로 사용자의 메세지 텍스트를 입력 받는 부분을 살펴 보겠습니다. 
+
+위에서 설명한 리스트와 비슷한 구성을 갖지만 입력 필드와 엔터 키를 쳤을 때의 처리 루틴이 선언됩니다. 
+
+~~~ javascript
+<v-text-field
+  label="Message text"
+  placeholder="please typing text"
+  outline
+  class="pa-3"
+  v-model="messageText"
+  @keypress="keypressMessageText"
+></v-text-field>
+~~~
+
+앞에서 이미 v-text-field 태그의 설명이 되어 있었는데 이 중 @keypress= 부분이 사용자가 키를 누를때 마다 호출되는 함수를 정의 하는 부분입니다.
+
+이 키가 눌리면 호출되는 keypressMessageText 함수는 다음과 같이 script 섹션에 선언됩니다.
+
+~~~ javascript
+<script>
+      :
+export default {
+      :
+  methods: {
+      :
+    keypressMessageText (e) {
+      if (e.key === 'Enter') {
+        console.log('messageText = ', this.messageText)
+      }
+    }  
+~~~
+
+이 함수는 키 입력 상태를 e 변수로 받아서 e.key 가 엔터키이면 입력된 messageText 값을 출력하도록 되어 있습니다. 
 
 ### 따라하기 실행 화면 
 
