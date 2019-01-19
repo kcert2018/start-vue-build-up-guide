@@ -124,7 +124,7 @@ vuetify 를 쓰려다 보면 여러가지 용어가 나와서 처음엔 힘듭�
 이 요소를 구현하는 소스인 home-main.vue 는 다음과 같습니다.
 
 > [src/home-main.vue]
-~~~ javascropt
+~~~ javascript
 <template>
   <v-container id="home-main" fluid class="ma-0 pa-0">
     <v-parallax
@@ -238,7 +238,7 @@ export default {
 이 요소를 구현하는 소스인 messages-main.vue 는 다음과 같습니다.
 
 > [src/messages-main.vue]
-~~~ javascropt
+~~~ javascript
 <template>
   <v-container id="messages-main" fluid fill-height>
       <v-layout
