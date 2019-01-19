@@ -91,25 +91,270 @@ vuetify 는 CSS 를 잘 모르더라도 구글 매터리얼 디자인 컨셉을 
 복잡한 UI 를 만들어 가다보면 vuetify 만 가지고 안됩니다. 또한 vuetify 는 모바일에 좀 더 가깝습니다. 매터리얼 디자인 자체가 모바일을 위한 것이기 때문입니다. 
 웹 화면을 만들때는 모바일과 다른 룰이 있음을 명심 하십시오..
 
+### material 과 vuetify
 
+vuetify 를 쓰려다 보면 여러가지 용어가 나와서 처음엔 힘듭니다. 사용되는 컴포넌트 이름들이 생소하거든요. 그런데 vuetify 를 쓰기전에 
+매터리얼 디자인의 용어를 읽어 보고 나면 vuetify 의 용어들이 매터리얼 디자인 용어라는 사실을 알게 되고 대략 어떻게 사용해야 할지 감이 잡힙니다. 
 
+여러분들에게 https://material.io 을 꼭 방문하셔서 영어로 되어 있지만 읽어 보시고 용어에 대한 감을 잡기 바랍니다. 
+구글에 키워드 material design 을 사용하시면 꽤 읽을 만한 한글 자료도 많이 나옵니다. 
 
+꼭! 용어에 먼저 익숙해 지시기를 바랍니다. 
 
+### home-main.vue 수정 
 
+이제 홈페이지 화면을 구현하는 home-main.vue 를 수정할 겁니다.
 
+홒페이지는 다음과 같은 요소로 구성됩니다. 
 
+* 배너 이미지와 캐치 프레이즈 텍스트 
+* 로그인 이메일 주소 입력 창
+* 로그인 버튼 
 
+쉽죠?
 
+이런 컴포넌트에서 데이터는 하나만 있으면 됩니다.,
 
+* 이메일 데이터
 
+사용자 동작은 버튼 클릭 하나만 있습니다. 
 
+* 로그인 버튼 클릭 이벤트
 
+이 요소를 구현하는 소스인 home-main.vue 는 다음과 같습니다.
 
+> [src/home-main.vue]
+~~~ javascropt
+<template>
+  <v-container id="home-main" fluid class="ma-0 pa-0">
+    <v-parallax
+      dark
+      height=400
+      src="https://img-s2.onedio.com/id-56ddb4ad606fe1702c52c2b9/rev-0/raw/s-b980e3a17a58f7b7e1021f2df2ddf4c918ca0401.jpg"
+    >
+      <v-layout
+        align-center
+        column
+        justify-center
+      >
+        <h1 class="display-2 mb-3 yellow--text">Messages !</h1>
+        <h4 class="subheading">Send your message to the world !</h4>
+      </v-layout>
+    </v-parallax>
+    <v-container>
+      <v-layout
+        align-center
+        column
+      >
+        <v-text-field
+          id="lbEmail"
+          v-model="email"
+          label="E-mail"
+        ></v-text-field>
+
+        <v-btn
+          id="btnLogin"
+          color="warning"
+          @click="clickLogin"
+        >Login</v-btn>
+
+      </v-layout>
+    </v-container>
+  </v-container>
+</template>
+
+<script>
+import { mapGetters, mapMutations, mapActions } from 'vuex'
+
+export default {
+  name: 'home-main',
+
+  data () {
+    return {
+      email: ''
+    }
+  },
+
+  computed: {
+    ...mapGetters({
+    }),
+
+    sample: {
+      get () { return '' },
+      set (newValue) {}
+    }
+  },
+
+  components: {
+  },
+
+  methods: {
+    ...mapMutations({
+    }),
+    ...mapActions({
+    }),
+    clickLogin () {
+      if (this.email) {
+        this.$router.push({ name: 'messages-main' })
+      }
+    }
+  },
+
+  created () { console.log('CALL created()') },
+  mounted () { console.log('CALL mounted()') },
+  activated () { console.log('CALL activated()') },
+  deactivated () { console.log('CALL deactivated()') },
+  destroyed () { console.log('CALL destroyed()') }
+}
+</script>
+
+<style>
+</style>
+<style scoped>
+</style>
+~~~
+
+### messages-main.vue 수정 
+
+다음에 구현해야 하는 것은 메세지들을 보내고 수신된 메세지를 보는 messages-main.vue 를 수정할 겁니다.
+
+메세지 페이지는 다음과 같은 요소로 구성됩니다. 
+
+* 홈으로 돌아갈 홈 아이콘 버튼 
+* 메세지 리스트
+* 보낼 메세지 텍스트 입력 
+
+별로 없죠?
+
+컴포넌트에서 데이터는 메세지 리스트와 보낼 메세지만 있으면 됩니다.
+
+* 메세지 리스트 데이터
+* 입력 메세지 택스트
+
+사용자 동작은 홈 버튼 클릭 하나만 있습니다. 
+
+* 홈 아이콘 버튼 클릭 이벤트
+
+이 요소를 구현하는 소스인 messages-main.vue 는 다음과 같습니다.
+
+> [src/messages-main.vue]
+~~~ javascropt
+<template>
+  <v-container id="messages-main" fluid fill-height>
+      <v-layout
+        align-center
+        column
+      >
+
+        <v-card width=600>
+          <v-toolbar color="cyan" dark>
+            <v-icon @click="clickHome">home</v-icon>
+            <v-toolbar-title>Messages</v-toolbar-title>
+          </v-toolbar>
+
+          <v-list two-line>
+            <template v-for="(message, index) in messages">
+
+              <v-list-tile :key="(index+'tl')" class="pt-0 pb-0">
+                <v-list-tile-content>
+                  <v-list-tile-title >{{message.email}} <span class="caption cyan--text">- {{message.date}}</span></v-list-tile-title>
+                  <v-list-tile-sub-title >{{message.text}}</v-list-tile-sub-title>
+                </v-list-tile-content>
+              </v-list-tile>
+
+              <v-divider :key="index"></v-divider>
+
+            </template>
+          </v-list>
+        </v-card>
+
+        <v-card width=600 class="mt-2">
+          <v-toolbar color="amber" dark>
+            <v-toolbar-side-icon></v-toolbar-side-icon>
+            <v-toolbar-title class="black--text"> Send messages
+            </v-toolbar-title>
+          </v-toolbar>
+
+          <v-text-field
+            label="Message text"
+            placeholder="please typing text"
+            outline
+            class="pa-3"
+            v-model="messageText"
+            @keypress="keypressMessageText"
+          ></v-text-field>
+
+        </v-card>
+
+      </v-layout>
+  </v-container>
+</template>
+
+<script>
+import { mapGetters, mapMutations, mapActions } from 'vuex'
+
+export default {
+  name: 'messages-main',
+
+  data () {
+    return {
+      messages: [
+        { email: 'aaa@www.okmail.com', time: '23:37:00', text: 'ksadjfsladkfljkasdf asdkfsadklf sadfasdf sdaf' },
+        { email: 'aaa@www.okmail.com', time: '23:37:00', text: 'ksadjfsladkfljkasdf asdkfsadklf sadfasdf sdaf' },
+        { email: 'aaa@www.okmail.com', time: '23:37:00', text: 'ksadjfsladkfljkasdf asdkfsadklf sadfasdf sdaf' },
+        { email: 'aaa@www.okmail.com', time: '23:37:00', text: 'ksadjfsladkfljkasdf asdkfsadklf sadfasdf sdaf' },
+        { email: 'aaa@www.okmail.com', time: '23:37:00', text: 'ksadjfsladkfljkasdf asdkfsadklf sadfasdf sdaf' }
+      ],
+      messageText: ''
+    }
+  },
+
+  computed: {
+    ...mapGetters({
+    }),
+
+    sample: {
+      get () { return '' },
+      set (newValue) {}
+    }
+  },
+
+  components: {
+  },
+
+  methods: {
+    ...mapMutations({
+    }),
+    ...mapActions({
+    }),
+    clickHome () {
+      this.$router.push({ name: 'home-main' })
+    },
+    keypressMessageText (e) {
+      if (e.key === 'Enter') {
+        console.log('messageText = ', this.messageText)
+      }
+    }  
+  },
+
+  created () { console.log('CALL created()') },
+  mounted () { console.log('CALL mounted()') },
+  activated () { console.log('CALL activated()') },
+  deactivated () { console.log('CALL deactivated()') },
+  destroyed () { console.log('CALL destroyed()') }
+}
+</script>
+
+<style>
+</style>
+<style scoped>
+</style>
+~~~
 
 
 ### 따라하기 실행 화면 
 
-자 이제 라우팅 처리가 끝났습니다. 즐거운 마음으로 결과를 보시죠..
+자 이제 화면 디자인이 끝났습니다. 즐거운 마음으로 결과를 보시죠..
 
 브라우저에서 각각 다음과 같이 URL 을 입력해 보세요
 
@@ -117,15 +362,11 @@ vuetify 는 CSS 를 잘 모르더라도 구글 매터리얼 디자인 컨셉을 
 * http://localhost:8080/#/messages
 
 > http://localhost:8080/#/  
-![http://localhost:8080/#/](./images/A005-router-home.png)  
+![http://localhost:8080/#/](./images/A006-design-home.png)  
 
 > http://localhost:8080/#/messages
-![http://localhost:8080/#/messages](./images/A005-router-messages.png)
+![http://localhost:8080/#/messages](./images/A006-design-messages.png)
 
-그런데 영 허접하죠? 다음 따라하기에서 이 부분은 바뀌게 될 겁니다.
-
-실행 했을때 콘솔 창에 출력되는 각 컴포넌트의 이벤트 출력 순서를 꼭 한번 해 보세요
-초보자님들이 이 컴포넌트의 이벤트 훅을 제대로 못 쓰시면 무지 무지 무지 고생하시게 될 겁니다. 
 
 ### 항상 습관처럼 실행 하자!
 
