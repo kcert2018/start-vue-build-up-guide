@@ -1,7 +1,11 @@
 <template>
-  <div id="app">
-    <h1>First!</h1>
-  </div>
+  <v-app id="app">
+    <v-content>
+      <keep-alive include="" >
+        <router-view/>
+      </keep-alive>
+    </v-content>
+  </v-app>
 </template>
 
 <script>

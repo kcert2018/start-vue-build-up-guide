@@ -1,6 +1,6 @@
 <template>
   <div id="messages-main">
-    <h1>Home Main</h1>
+    <h1>Messages Main</h1>
   </div>
 </template>
 
