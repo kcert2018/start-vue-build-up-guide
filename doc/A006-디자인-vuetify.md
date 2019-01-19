@@ -218,7 +218,7 @@ export default {
 
 뷰 컴포넌트를 구성하는데 vuetify 를 사용하면 가장 먼저 외곽을 `<v-container>` 로 감쌉니다. 
 
-vuetify 는 반응형과 그리드 구성이 가능하려면 v-container 태그를 다음과 같이 감싸야 합니다. 
+vuetify 에서 반응형과 그리드 구성이 가능하려면 v-container 태그를 다음과 같이 감싸야 합니다. 
 
 ~~~ javascript
 <v-container id="home-main" fluid class="ma-0 pa-0">
