@@ -261,7 +261,7 @@ v-parallax 의 구현 부분을 자세하게 살표 보죠
 * height : 이미지의 높이를 지정된 크기로 맞춥니다.
 * src : 외부 이미지를 url 로 지정할 수 도 있고 내부 이미지를 지정할 수 있습니다. 
 
-v-parallax 이미지 위에 캐치 프레이를 표현하기 위해서 v-layout 을 다음과 같이 사용합니다. 
+v-parallax 이미지 위에 캐치 프레이를 표현하기 위해서 v-parallax 캐그 내부에 v-layout 을 다음과 같이 사용합니다. 
 
 ~~~ javascript
 <v-layout
