@@ -123,7 +123,7 @@ vuetify 를 쓰려다 보면 여러가지 용어가 나와서 처음엔 힘듭�
 
 이 요소를 구현하는 소스인 home-main.vue 는 다음과 같습니다.
 
-> [src/home-main.vue]
+> [src/home-main.vue](https://github.com/kcert2018/start-vue-build-up-guide/blob/master/apps/z040-home-main-design/src/views/home-main.vue)
 ~~~ javascript
 <template>
   <v-container id="home-main" fluid class="ma-0 pa-0">
@@ -377,7 +377,7 @@ export default {
 
 이 요소를 구현하는 소스인 messages-main.vue 는 다음과 같습니다.
 
-> [src/messages-main.vue]
+> [src/messages-main.vue](https://github.com/kcert2018/start-vue-build-up-guide/blob/master/apps/z040-home-main-design/src/views/messages-main.vue)
 ~~~ javascript
 <template>
   <v-container id="messages-main" fluid fill-height>
@@ -525,7 +525,7 @@ messages-main.vue 에서는 메세지 목록을 보여 주는 부분과 메세�
 
 v-card 는 div 의 변형된 것으로 매터리얼 디자인의 카드 를 구현한 것입니다.
 
-여기서는 강제로 가로 폭을 600 픽셀로 설정하였고 v-layuout 의 align-center 옵션을 사용하여 중안 정렬이 되도록 하였습니다.
+여기서는 강제로 가로 폭을 600 픽셀로 설정하였고 v-layuout 의 align-center 옵션을 사용하여 중앙 정렬이 되도록 하였습니다.
 
 이제 메세지 리스트를 처리하는 부분을 살펴 보겠습니다. 
 
