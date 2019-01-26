@@ -63,11 +63,13 @@ export default {
 
   methods: {
     ...mapMutations({
+      loginEmail: 'users/email'
     }),
     ...mapActions({
     }),
     clickLogin () {
       if (this.email) {
+        this.loginEmail(this.email)
         this.$router.push({ name: 'messages-main' })
       }
     }
