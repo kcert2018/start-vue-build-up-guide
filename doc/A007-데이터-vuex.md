@@ -100,7 +100,7 @@ src/store/index.js
 src/store/index.js 파일은 크게 하는 것이 없습니다. 
 vuex 프레임 워크를 이용하여 데이터 저장 구조인 store를 만들고 모듈들을 포함합니다.
 
-> [src/store/index.js]()
+> [src/store/index.js](https://github.com/kcert2018/start-vue-build-up-guide/blob/master/apps/z050-home-main-data/src/store/index.js)
 ~~~ javascript
 import Vue from 'vue'
 import Vuex from 'vuex'
@@ -121,7 +121,7 @@ export default new Vuex.Store({
 src/store/modules/index.js 파일도 크게 하는 것이 없습니다. 
 modules 디렉토리에 있는 *.js 파일을 모두 store 모듈로 등록해 버리는 겁니다. 
 
-> [src/store/modules/index.js]()
+> [src/store/modules/index.js](https://github.com/kcert2018/start-vue-build-up-guide/blob/master/apps/z050-home-main-data/src/store/modules/index.js)
 ~~~ javascript
 /**
  * The file enables `@/store/index.js` to import all vuex modules
@@ -153,7 +153,7 @@ app.js 모듈은 앱 전체에 통용되는 데이터들을 정의하고 사용�
 따라하기에서는 그냥 기본형태만 정의해 놓기만 할 겁니다. 
 새로운 모듈 만들때 복사해서 쓰면 편하죠 ^^;
 
-> [src/store/modules/app.js]()
+> [src/store/modules/app.js](https://github.com/kcert2018/start-vue-build-up-guide/blob/master/apps/z050-home-main-data/src/store/modules/app.js)
 ~~~ javascript
 const state = {
 }
@@ -183,7 +183,7 @@ export default {
 src/views/home-main.vue 에서 data 에 정의한 email 필드를 정의합니다. 
 원래는 두단어 이상 조합하는게 좋은데 여기서는 그냥 email 만 쓰도록 하겠습니다.
 
-> src/store/modules/users.js
+> [src/store/modules/users.js](https://github.com/kcert2018/start-vue-build-up-guide/blob/master/apps/z050-home-main-data/src/store/modules/users.js)
 ~~~ javascript
 const state = {
   email: ''
@@ -220,7 +220,7 @@ export default {
 
 src/views/messages-main.vue 의 data 에 정의한 messages 필드를 정의합니다. 
 
-> src/store/modules/messages.js
+> [src/store/modules/messages.js](https://github.com/kcert2018/start-vue-build-up-guide/blob/master/apps/z050-home-main-data/src/store/modules/messages.js)
 ~~~ javascript
 const state = {
   messages: [
@@ -292,7 +292,7 @@ mapGetters 를 이용하여 이 작업을 처리 할 수 있습니다.
     }),
 ~~~
 
-> [src/views/messages-main.vue 수정 후]()
+> [src/views/messages-main.vue 수정 후](https://github.com/kcert2018/start-vue-build-up-guide/blob/master/apps/z050-home-main-data/src/views/messages-main.vue)
 
 ~~~ javascript
   data () {
@@ -344,7 +344,7 @@ home-main.vue 부터 연결합니다. email 은 data 필드에 그대로 둡니�
   },
 ~~~
 
-> [src/views/home-main.vue 수정 후]()
+> [src/views/home-main.vue 수정 후](https://github.com/kcert2018/start-vue-build-up-guide/blob/master/apps/z050-home-main-data/src/views/home-main.vue)
 ~~~ javascript
  methods: {
     ...mapMutations({
@@ -428,7 +428,7 @@ dateFormat(now, "dddd, mmmm dS, yyyy, h:MM:ss TT");
 자 이름을 뭘로 지을까요? sendMessage 가 직관적이죠?
 이 이름으로 sendMessage 을 다음과 같이 선언해 봅시다. 
 
-> [src/store/modules/messages.js]()
+> [src/store/modules/messages.js](https://github.com/kcert2018/start-vue-build-up-guide/blob/master/apps/z050-home-main-data/src/store/modules/messages.js)
 ~~~ javascript
 const actions = {
   sendMessage (context, payload) {
@@ -456,7 +456,7 @@ messages 배열에 추가 합니다.
 
 addMessage() 은 다음과 같이 만듭니다. 
 
-> [src/store/modules/messages.js]()
+> [src/store/modules/messages.js](https://github.com/kcert2018/start-vue-build-up-guide/blob/master/apps/z050-home-main-data/src/store/modules/messages.js)
 ~~~ javascript
 const mutations = {
     :
@@ -494,7 +494,7 @@ computed: {
 
 이렇게 한 후 메인 홈 페이지 로긴 한 후 메세지 뷰로 이동 한 후 메세지를 입력하여 엔터를 누르면 메세지 리스트가 변하게 됩니다. 
 
-> [src/views/messages-main.vue]()
+> [src/views/messages-main.vue](https://github.com/kcert2018/start-vue-build-up-guide/blob/master/apps/z050-home-main-data/src/views/messages-main.vue)
 ~~~ javascript
 methods: {
       :
