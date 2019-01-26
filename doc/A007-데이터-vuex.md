@@ -316,7 +316,7 @@ messages: 'messages/messages' 를 선언할 때
 
 같은 이름을 사용해서 초보분들이 헷깔리게 된 거지만 다음과 같은 형식이라고 생각하시면 됩니다.
 
-   뷰에서사용할이름: 'store모듈이름/모듈에선언된getters이름"
+    뷰에서사용할이름: 'store모듈이름/모듈에선언된getters이름"
 
 data 에 messageText 는 뷰 안에서만 사용할 것이기 때문에 computed로 옮기지 않고 있습니다.
 
@@ -376,6 +376,149 @@ $ ./run-e2e.sh
 
 ![http://localhost:8080/#/messages](./images/A007-vue-devtools-store.png)
 
+## 메세지 입력 처리 
+
+이제 본격적인 메세지 연동 앱 다운 모습을 만들어 보도록 하겠습니다. 
+
+아직은 서버와 연결된 상태가 되지 않았기 때문에 다른 사람의 메세지는 못 보겠지만 본인이 넣은 메세지가 보여 지도록 해 보겠습니다. 
+
+messages-main.vue 에서 메세지 입력 창에 메세지를 넣고 엔터를 치면 keypressMessageText() 를 호출하게 됩니다. 
+
+이 함수에서 messages 모듈의 messages에 메세지를 넣어야 합니다.
+
+### 뮤테이션 ? 액션 ?
+
+초보분들! store 에서 뮤테이션 과 액션 두가지 처리 함수가 있어 어떤 것을 사용해야 할지 고민스럽죠?
+
+예 고민 하지 마십시오.. 어려운 말로 뮤테이션은 동기 함수이고 액션은 비동기 함수입니다. 
+
+그러면 쉬운 말은?
+
+그냥 서버와 연관된 처리를 해야 할 경우나 사용자 입력과 연관되면 액션 , 단순 변수 값 설정만 하면 뮤테이션 
+이렇게 생각하세요.
+
+메세지를 넣는 것은 사용자가 엔터를 쳤죠? 그리고 아마도 나중에는 서버에 보낼 겁니다. 
+당근 액션으로 처리 해야 합니다. 
+
+### dateformat 추가 
+
+VUE 로 개발해 가면서 필요한 여러가지가 있지만 시간 포맷팅 함수는 정말 정말 필수적입니다. 
+
+전 dateformat 노드 모듈을 즐겨 사용합니다. 
+
+다음과 같이 추가해 봅시다. 
+
+~~~
+$ ./run-bash.sh
+$ cd home-main
+$ yarn add -D dateformat
+~~~
+
+dateformat 는 다음과 같이 사용 할 수 있습니다.
+
+~~~ javascript
+import dateFormat from 'dateformat'
+
+let now = new Date()
+dateFormat(now, "dddd, mmmm dS, yyyy, h:MM:ss TT");
+~~~
+
+### 메세지 전송 액션 함수 sendMessage()
+
+자 이름을 뭘로 지을까요? sendMessage 가 직관적이죠?
+이 이름으로 sendMessage 을 다음과 같이 선언해 봅시다. 
+
+> [src/store/modules/messages.js]()
+~~~ javascript
+const actions = {
+  sendMessage (context, payload) {
+    let email = payload.email
+    let text = payload.text
+    let message = { email, text, time: dateFormat(Date.now(),"hh:MM:ss") }
+    context.commit('addMessage', message)
+  }
+}
+~~~
+
+액션 sendMessage() 함수는 payload 에 다음과 같은 객체를 받게 됩니다.
+
+~~~ javascript 
+   { email: 'frog@falinux.com', text: 'this is text'}
+~~~
+
+이걸 객체 정보를 바탕으로 새로운 메세지로 다음과 같이 만들어서 addMessage() 뮤테이션을 이용하여 
+messages 배열에 추가 합니다. 
+
+~~~ javascript 
+    let message = { email, text, time: dateFormat(Date.now(),"hh:MM:ss") }
+    context.commit('addMessage', message)
+~~~
+
+addMessage() 은 다음과 같이 만듭니다. 
+
+> [src/store/modules/messages.js]()
+~~~ javascript
+const mutations = {
+    :
+  addMessage(_state, payload) {
+    let message = payload
+    let newArray = _state.messages.slice()
+    newArray.shift()
+    newArray.push(message)
+    _state.messages = newArray
+  },
+}
+~~~
+
+초보분들이 여기서 주의해서 볼 것이 입니다.
+기존에 선언된 state.messages 를 가져와서 새로운 배열 슬라이스를 만든 후에,
+처음 것을 삭제하고 새로운 메세지를 추가한 다음 새로운 배열을 다시 state.messages 에 대입하는 것입니다. 
+
+배열은 VUE 에서 변화를 감지 하려면 이렇게 새로운 배열을 만들어 지정해야 합니다. 
+
+그래야 messages-main.vue 에 선언되어 사용되는 messages 가 store 의 messages 와 연동되어 
+변화가 있을 때마다 렌더링 됩니다. 
+
+~~~ javascript 
+computed: {
+    ...mapGetters({
+      messages: 'messages/messages',
+~~~
+
+이제 사용자가 메세지 입력이 되면 store 에 저장하도록 수정해야 합니다. 
+
+다음과 같이 mapActions 에 sendMessage를 선언하고 keypressMessageText() 에서 this.sendMessage() 를 호출합니다.
+
+여러분은 keypressMessageText() 함수에 async 키워드를 사용하고 this.sendMessage() 함수에 await 키워드를 사용하고 있는 것을 볼 수 있습니다. 
+액션이 비동기 함수이고 순차적 처리를 위해서 이런식으로 처리해 주어야 합니다.
+
+이렇게 한 후 메인 홈 페이지 로긴 한 후 메세지 뷰로 이동 한 후 메세지를 입력하여 엔터를 누르면 메세지 리스트가 변하게 됩니다. 
+
+> [src/views/messages-main.vue]()
+~~~ javascript
+methods: {
+      :
+    ...mapActions({
+      sendMessage: 'messages/sendMessage'
+    }),
+      :
+    async keypressMessageText (e) {
+      if (e.key === 'Enter') {
+        console.log('messageText = ', this.messageText)
+        await this.sendMessage({ email: this.loginEmail, text: this.messageText })
+      }
+    }
+~~~ 
+
+쉽죠?
+
+vuex 에 대한 데이터 처리는 여기까지 입니다. 
+
+### 정리 하면 ...
+
+디자인 단계에서는 data 필드에 디자인에 필요한 데이터 필드를 선언해서 사용했다면
+
+데이터 단계에서는 이렇게 정의된 데이터를 store 에 모듈로 분류하고 사용자 입력에 발생한 것을 액션애 연동합니다.
 
 ### 항상 습관처럼 실행 하자!
 
