@@ -14,7 +14,7 @@
           <v-list two-line>
             <template v-for="(message, index) in messages">
 
-              <v-list-tile :key="(index+'tl')" class="pt-0 pb-0">
+              <v-list-tile :key="(index+'tl')" :id="('message-' + index)" class="pt-0 pb-0">
                 <v-list-tile-content>
                   <v-list-tile-title>{{message.email}} <span class="caption cyan--text">- {{message.date}}</span></v-list-tile-title>
                   <v-list-tile-sub-title>{{message.text}}</v-list-tile-sub-title>
@@ -35,6 +35,7 @@
           </v-toolbar>
 
           <v-text-field
+            id="inMessageText"
             label="Message text"
             placeholder="please typing text"
             outline

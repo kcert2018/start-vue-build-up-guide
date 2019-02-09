@@ -20,7 +20,7 @@
         column
       >
         <v-text-field
-          id="lbEmail"
+          id="inEmail"
           v-model="email"
           label="E-mail"
         ></v-text-field>

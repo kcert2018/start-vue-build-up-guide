@@ -13,6 +13,18 @@ module.exports = (on, config) => {
   //  webpackOptions: require('@vue/cli-service/webpack.config'),
   //  watchOptions: {}
   // }))
+  on('task', {
+    console (args) {
+      let msg = '  >> '
+
+      for (let arg of args) {
+        msg = msg + util.format(arg)
+      }
+      msg = msg + '\n'
+      console.log(msg)
+      return null
+    }
+  })
 
   return Object.assign({}, config, {
     fixturesFolder: 'tests/e2e/fixtures',
