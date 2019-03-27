@@ -212,7 +212,7 @@ users.js 를 시험하기 위해서 다음과 같은 단위 테스트 루틴을 
 
 이제 다음과 같이 시험 내용을 만듭니다. 
 
-> [apps/home-main/tests/unit/010-store-users.spec.js]()
+> [apps/home-main/tests/unit/010-store-users.spec.js](https://github.com/kcert2018/start-vue-build-up-guide/blob/master/apps/home-main/tests/unit/010-store-users.spec.js)
 
 ~~~ javascript
 import { expect } from 'chai'
@@ -284,7 +284,7 @@ actions 의 단위 테스트 구현은 많이 복잡한니다. 왜냐하면?
 
 이제 다음과 같이 시험 내용을 만듭니다. 
 
-> [apps/home-main/tests/unit/010-store-messages.spec.js]()
+> [apps/home-main/tests/unit/010-store-messages.spec.js](https://github.com/kcert2018/start-vue-build-up-guide/blob/master/apps/home-main/tests/unit/020-store-messages.spec.js)
 
 ~~~ javascript
 import { expect } from 'chai'
