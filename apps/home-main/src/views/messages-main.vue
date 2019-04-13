@@ -7,7 +7,7 @@
 
         <v-card width=600>
           <v-toolbar color="cyan" dark>
-            <v-icon @click="clickHome">home</v-icon>
+            <v-icon id="btnHome" @click="clickHome">home</v-icon>
             <v-toolbar-title>Messages</v-toolbar-title>
           </v-toolbar>
 
@@ -16,7 +16,7 @@
 
               <v-list-tile :key="(index+'tl')" :id="('message-' + index)" class="pt-0 pb-0">
                 <v-list-tile-content>
-                  <v-list-tile-title>{{message.email}} <span class="caption cyan--text">- {{message.date}}</span></v-list-tile-title>
+                  <v-list-tile-title>{{message.email}} <span class="caption cyan--text">- {{message.time}}</span></v-list-tile-title>
                   <v-list-tile-sub-title>{{message.text}}</v-list-tile-sub-title>
                 </v-list-tile-content>
               </v-list-tile>
@@ -92,13 +92,13 @@ export default {
         await this.sendMessage({ email: this.loginEmail, text: this.messageText })
       }
     }
-  },
+  }
 
-  created () { console.log('CALL created()') },
-  mounted () { console.log('CALL mounted()') },
-  activated () { console.log('CALL activated()') },
-  deactivated () { console.log('CALL deactivated()') },
-  destroyed () { console.log('CALL destroyed()') }
+  // created () { console.log('CALL created()') },
+  // mounted () { console.log('CALL mounted()') },
+  // activated () { console.log('CALL activated()') },
+  // deactivated () { console.log('CALL deactivated()') },
+  // destroyed () { console.log('CALL destroyed()') }
 }
 </script>
 

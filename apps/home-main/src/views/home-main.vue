@@ -19,6 +19,7 @@
         align-center
         column
       >
+
         <v-text-field
           id="inEmail"
           v-model="email"
@@ -68,18 +69,19 @@ export default {
     ...mapActions({
     }),
     clickLogin () {
+      console.log('CLICK clickLogin()')
       if (this.email) {
         this.loginEmail(this.email)
         this.$router.push({ name: 'messages-main' })
       }
     }
-  },
+  }
 
-  created () { console.log('CALL created()') },
-  mounted () { console.log('CALL mounted()') },
-  activated () { console.log('CALL activated()') },
-  deactivated () { console.log('CALL deactivated()') },
-  destroyed () { console.log('CALL destroyed()') }
+  // created () { console.log('CALL created()') },
+  // mounted () { console.log('CALL mounted()') },
+  // activated () { console.log('CALL activated()') },
+  // deactivated () { console.log('CALL deactivated()') },
+  // destroyed () { console.log('CALL destroyed()') }
 }
 </script>
 
