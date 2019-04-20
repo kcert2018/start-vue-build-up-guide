@@ -62,5 +62,5 @@ Vue 와 관련 소개글을 읽으면, 쉽다는 생각이 듭니다. 도전 의
 7. [데이터 vuex](doc/A007-데이터-vuex.md)
 8. [테스트 E2E](doc/A008-테스트-e2e.md)
 9. [테스트 UNIT - vuex](doc/A009-테스트-unit-vuex.md)
-10. [테스트 UNIT - vue](doc/AA010-테스트-unit-vue.md)
+10. [테스트 UNIT - vue](doc/A010-테스트-unit-vue.md)
 11. [준비중](doc/A000-준비중.md)

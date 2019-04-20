@@ -439,7 +439,7 @@ expect(clickHandler.called).to.equal(true)
 
 직접 자신만의 단위 테스트를 만들었으면 합니다. 
 
-> [apps/home-main/tests/unit/030-home-main.spec.js]()
+> [apps/home-main/tests/unit/030-home-main.spec.js](https://github.com/kcert2018/start-vue-build-up-guide/blob/master/apps/home-main/tests/unit/030-home-main.spec.js)
 ~~~ javascript
 import { expect } from 'chai' // eslint-disable-line no-unused-vars
 import { shallowMount, createLocalVue } from '@vue/test-utils'
@@ -523,8 +523,7 @@ describe('home-main 시험', () => {
 })
 ~~~
 
-> [apps/home-main/tests/unit/040-messages-main.spec.js]()
-> tests/unit/
+> [apps/home-main/tests/unit/040-messages-main.spec.js](https://github.com/kcert2018/start-vue-build-up-guide/blob/master/apps/home-main/tests/unit/040-messages-main.spec.js)
 ~~~ javascript
 import { expect } from 'chai' // eslint-disable-line no-unused-vars
 import { shallowMount, createLocalVue } from '@vue/test-utils'
